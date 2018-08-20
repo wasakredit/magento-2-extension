@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <wasa_gateway>
+                <debug>1</debug>
+                <active>0</active>
+                <model>WkPaymentGatewayFacade</model>
+                <merchant_gateway_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <client_secret backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <is_detail_widget_visible>1</is_detail_widget_visible>
+                <is_listing_widget_visible>1</is_listing_widget_visible>
+                <order_status>pending_wasa_checkout</order_status>
+                <payment_action>authorize</payment_action>
+                <title>Wasa Kredit Leasing</title>
+                <currency>SEK</currency>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <can_use_checkout>1</can_use_checkout>
+                <is_gateway>1</is_gateway>
+                <debugReplaceKeys>MERCHANT_KEY</debugReplaceKeys>
+                <paymentInfoKeys>FRAUD_MSG_LIST</paymentInfoKeys>
+                <privateInfoKeys>FRAUD_MSG_LIST</privateInfoKeys>
+            </wasa_gateway>
+        </payment>
+    </default>
+</config>
