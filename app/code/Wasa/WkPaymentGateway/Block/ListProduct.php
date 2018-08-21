@@ -87,8 +87,10 @@ class ListProduct extends \Magento\Catalog\Block\Product\ListProduct
         if($productId!==false){
             $productLeasingCost = $this->_leasingCosts[$productId]['monthly_cost'];
 
-            $productLeasingCostRendered = $this->getLeasingPrice($productLeasingCost['currency'], $productLeasingCost['amount']);
-            $price .= $productLeasingCostRendered;
+            if($productLeasingCost['amount'] > 0){
+                $productLeasingCostRendered = $this->getLeasingPrice($productLeasingCost['currency'], $productLeasingCost['amount']);
+                $price .= $productLeasingCostRendered;
+            }
         }
 
         return $price;
@@ -105,7 +107,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\ListProduct
     {
         $formatedAmount = number_format($amount, 0, ',', ' ') ;
 
-        return '<span class="price-box price-container price-final_price">
+        return '<span class="wasa-kredit-finanancing-price price-box price-container price-final_price">
                     <span class="price-label">Finansiering</span>
                     <span class="price">'.$formatedAmount.' kr/mån</span>
                 </span>';
