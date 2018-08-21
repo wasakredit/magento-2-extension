@@ -377,7 +377,16 @@ class Wkcheckout
         $address = $isSameAsBilling ? $this->getBillingAddress() : $this->getShippingAddress();
 
         $streetAddress = $address->getStreet();
+
         $streetElement = $streetAddress[0];
+
+        if (!empty(trim($streetAddress[1]))) {
+          $streetElement = $streetElement . ", " . $streetAddress[1];
+        }
+
+        if (!empty(trim($streetAddress[2]))) {
+          $streetElement = $streetElement . ", " . $streetAddress[2];
+        }
 
         $countryId = $address->getCountryId();
         $country = $countryId?$this->getCountryNameById($address->getCountryId()):null;
