@@ -123,9 +123,9 @@ class Wkcheckout
      * @return string $requestDomain
      */
     public function getRequestDomain() {
-        $requestDomain = $this->scopeConfig->getValue('payment/wasa_gateway/credentials/request_domain');
-
-        return $requestDomain;
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
+        return $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_WEB);
     }
 
     /**
