@@ -480,7 +480,7 @@ class Wkcheckout
         $items = array_map(function ($product) {
             return [
                 'financed_price' => [
-                    'amount' => $product['final_price'],
+                    'amount' => number_format((float)$product['final_price'], 2, '.', ''),
                     'currency' => 'SEK'
                 ],
                 'product_id' => $product['entity_id']
