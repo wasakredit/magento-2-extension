@@ -379,15 +379,16 @@ class Wkcheckout
         $streetAddress = $address->getStreet();
 
         $streetElement = $streetAddress[0];
+        
+        if (count($streetAddress) > 1) {
+            if (!empty(trim($streetAddress[1]))) {
+              $streetElement = $streetElement . ", " . $streetAddress[1];
+            }
 
-        if (!empty(trim($streetAddress[1]))) {
-          $streetElement = $streetElement . ", " . $streetAddress[1];
+            if (!empty(trim($streetAddress[2]))) {
+              $streetElement = $streetElement . ", " . $streetAddress[2];
+            }
         }
-
-        if (!empty(trim($streetAddress[2]))) {
-          $streetElement = $streetElement . ", " . $streetAddress[2];
-        }
-
         $countryId = $address->getCountryId();
         $country = $countryId?$this->getCountryNameById($address->getCountryId()):null;
 
