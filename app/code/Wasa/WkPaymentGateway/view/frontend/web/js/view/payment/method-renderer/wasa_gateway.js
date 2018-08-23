@@ -68,7 +68,7 @@ define(
                 }
               });
 
-              return "<i>Loading Wasa Kredit Checkout...</i>";
+              return "<i>Laddar Wasa Kredit Checkout...</i>";
             },
 
             iframeInit: function() {
