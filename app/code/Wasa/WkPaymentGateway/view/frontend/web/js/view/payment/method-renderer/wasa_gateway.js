@@ -13,7 +13,19 @@ define(
     function (ko, $, Component) {
         'use strict';
 
-        return Component.extend({
+        function httpGet(url, callback)
+        {
+            var response = null;
+            var http = new XMLHttpRequest();
+            http.onreadystatechange = function() {
+                callback(this.readyState, this.status, http);
+            };
+            http.open("GET", url, true);
+            http.send(null);
+            return response ? response : null;
+        }
+
+        var extendedUiComponent = Component.extend({
             defaults: {
                 template: 'Wasa_WkPaymentGateway/payment/form'
             },
@@ -26,6 +38,7 @@ define(
             defaultOption:  window.checkoutConfig.payment.wasa_gateway.default_option,
             baseUrl :       window.checkoutConfig.payment.wasa_gateway.base_url,
             orderId :       window.checkoutConfig.payment.wasa_gateway.reserved_order_id,
+            wasaKreditCheckoutSource:   ko.observable(null),
 
             getPaymentMethodDisplayName: function() {
                 return this.leasingOptions['display_name'];
@@ -43,37 +56,29 @@ define(
                 return this.defaultOption['contract_length'];
             },
 
-            getIframe: function() {
-                var iframe = window.checkoutConfig.payment.wasa_gateway.checkout_snippet;
-                if(!iframe){
-                    console.log("Wasa Checkout Iframe Loading Error.");
-                    return false;
+
+            loadWasaKreditCheckout: function(){
+              var self = this;
+              var baseUrl = this.baseUrl;
+
+              var response = httpGet(baseUrl + '/wkcheckout/checkout/createWasaKreditCheckout', function(state, status, http) {
+                if(state == 4 && status == 200) {
+                    self.wasaKreditCheckoutSource(http.responseText);
+                    self.iframeInit();
                 }
-                return iframe;
+              });
+
+              return "<i>Loading Wasa Kredit Checkout...</i>";
             },
 
             iframeInit: function() {
-
                 var self = this;
                 var baseUrl = this.baseUrl;
-
-                function httpGet(url, callback)
-                {
-                    var response = null;
-                    var http = new XMLHttpRequest();
-                    http.onreadystatechange = function() {
-                        callback(this.readyState, this.status, http);
-                    };
-                    http.open("GET", url, true);
-                    http.send(null);
-                    return response ? response : null;
-                }
 
                 function translateObjectContents(prefix, param)
                 {
                     return '?' + prefix + '=' + param;
                 }
-
 
                 var options = {
                     onComplete: function(orderReferences){
@@ -84,8 +89,6 @@ define(
                             + translateObjectContents('order_id', self.orderId) + '&' + 'wasa_order_id=' + wasaOrderId,
                             function(state, status, http) {
                                 if(state == 4 && status == 200) {
-                                    // Enable in dev mode
-                                    // console.log(http.responseText);
                                     return http.responseText;
                                 }
                             });
@@ -106,8 +109,18 @@ define(
                     }
                 };
 
-                window.wasaCheckout.init(options);
+                if (window.wasaCheckout) {
+                    window.wasaCheckout.init(options);
+                }
             },
         });
+
+        extendedUiComponent().isChecked.subscribe(function(newValue) {
+          if (newValue != "wasa_gateway") {
+            extendedUiComponent().wasaKreditCheckoutSource(null);
+          }
+        });
+
+        return extendedUiComponent;
     }
 );

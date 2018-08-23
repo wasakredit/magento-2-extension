@@ -43,21 +43,11 @@ final class ConfigProvider implements ConfigProviderInterface
                 self::CODE => [
                     'leasing_options'   => $this->getLeasingOptions(),
                     'default_option'    => $this->getDefaultOption(),
-                    'checkout_snippet'  => $this->getCheckout(),
                     'reserved_order_id' => $this->getReservedOrderId(),
                     'base_url'          => $this->getBaseUrl(),
                 ]
             ]
         ];
-    }
-
-    /**
-     * Get checkout Html Snippet
-     * @return string
-     */
-    protected function getCheckout()
-    {
-        return $this->wkcheckout->createCheckout();
     }
 
     /**
