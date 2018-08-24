@@ -31,11 +31,11 @@
                     <comment><![CDATA[API calls will be in test mode.]]></comment>
                 </field>
                 <field id="is_detail_widget_visible" translate="label" type="select" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Product Detail Page Widget</label>
+                    <label>Show Product Detail Page Widget</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="is_listing_widget_visible" translate="label" type="select" sortOrder="57" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Product Listing Page Widget</label>
+                    <label>Show Product Listing Page Widget</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="order_status" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
