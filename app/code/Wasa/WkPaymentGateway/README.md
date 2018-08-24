@@ -9,7 +9,7 @@ Official Wasa Kredit payment extension for Magento 2. Allows store builders to o
 * [Installation](#installation)
 * [First time setup](#first_time_setup)
 * [Add widget on product page](#product_widget)
-* [Add leasing cost in product list](#list_view)
+* [Add monthly cost in product list](#list_view)
 * [Folder structure](#folder_structure)
 
 ## <a name="change_log"></a>Change log
@@ -17,7 +17,7 @@ Official Wasa Kredit payment extension for Magento 2. Allows store builders to o
 ### v2.0
 
 1. Update the internal php SDK to version 2.4.
-2. Leasing Monthly Cost display on product listing page and product detail page are handled in admin config
+2. Monthly Cost display on product listing page and product detail page are handled in admin config
 
 ### Earlier versions
 
@@ -36,7 +36,7 @@ Community  | 2.2.4              | Tested
 2. Copy all files into the corresponding file location. ***Be careful not to replace the containing directory!***
 3. Flush the Magento Cache in `System > Cache Management` or run `php bin/magento c:f`.
 4. Run `php bin/magento setup:upgrade` & `php bin/magento setup:static-content:deploy`
-                                         
+
 ## <a name="first_time_setup">First time setup</a>
 
 1. Proceed to `Stores > Configuration > Sales > Payment Methods`.
@@ -45,13 +45,13 @@ Community  | 2.2.4              | Tested
 4. Put in test mode.
 5. If your system use a custom field for the organisations number, please fill in "Custom organisation number field".
 
-## <a name="product_widget">Add widget showing leasing price on product page</a>
+## <a name="product_widget">Add widget showing monthly cost on product page</a>
 
-To display the leasing widget in product detail page, use the `Product Detail Page Widget` handle in module configuration (`Stores > Configuration > Sales > Payment Methods`).
+To display the monthly cost widget in product detail page, use the `Product Detail Page Widget` handle in module configuration (`Stores > Configuration > Sales > Payment Methods`).
 
-## <a name="list_view">Add leasing cost in product list</a>
+## <a name="list_view">Add monthly cost in product list</a>
 
-To calculate and display the leasing cost for each product in a list, use the `Product Listing Page Widget` handle.
+To calculate and display the monthly cost for each product in a list, use the `Product Listing Page Widget` handle.
 
 ## <a name="folder_structure">Folder structure</a>
 
@@ -70,6 +70,7 @@ To calculate and display the leasing cost for each product in a list, use the `P
 |               │       ├── CallbackCancelled.php
 |               │       ├── CallbackCompleted.php
 |               │       ├── CallbackRedirected.php
+|               |       ├── CreateWasaKreditCheckout.php
 |               │       ├── Gateway.php
 |               │       ├── Ping.php
 |               │       ├── Redirect.php
