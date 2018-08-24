@@ -1,59 +1,68 @@
-# Wasa Kredit Magento Extension v2.0
+# Wasa Kredit Magento 2 Extension
 Official Wasa Kredit payment extension for Magento 2. Allows store builders to offer **Wasa Kredit** as a payment option.
 
 
 **Table of Content**
 
 * [Change log](#change_log)
-* [Requirements](#requirements)
+* [Compability](#compability)
 * [Installation](#installation)
 * [First time setup](#first_time_setup)
-* [Add widget on product page](#product_widget)
-* [Add monthly cost in product list](#list_view)
+* [Enable and passing an Organization number to the checkout](#passing_organization_number)
 * [Folder structure](#folder_structure)
 
 ## <a name="change_log"></a>Change log
 
-### v2.0
+### What's new in v2.0
 
-1. Update the internal php SDK to version 2.4.
-2. Monthly Cost display on product listing page and product detail page are handled in admin config
-
-### Earlier versions
-
-Earlier versions are magento-1x compatible, see https://github.com/wasakredit/magento-1x-extension
-
-## <a name="requirements">Magento Version Requirements</a>
-
-Type       | Version            | Status              
----------- | ------------------ |  ------------------              
-Community  | 2.2.4              | Tested
+1. Extension now supports Magento 2.
 
 
-## <a name="installation">Installation</a>
+### Version 1.x
+
+Version 1.x of this extension are magento-1x compatible, see https://github.com/wasakredit/magento-1x-extension
+
+## <a name="compability"></a>Compatibility
+
+Tested with, but not limited to, following Magento Version.
+
+| Type      | Version | Status |
+| --------- | ------- | ------ |
+| Community | 2.2.4   | Tested |
+
+## <a name="installation"></a>Installation
 
 1. Extract the zip file to your server or local machine.
 2. Copy all files into the corresponding file location. ***Be careful not to replace the containing directory!***
 3. Flush the Magento Cache in `System > Cache Management` or run `php bin/magento c:f`.
 4. Run `php bin/magento setup:upgrade` & `php bin/magento setup:static-content:deploy`
 
-## <a name="first_time_setup">First time setup</a>
+## <a name="first_time_setup"></a>First time setup
 
-1. Proceed to `Stores > Configuration > Sales > Payment Methods`.
-2. Fill in your assigned ***Partner ID*** and ***Client Secret ID***.
-3. Fill in your base domain
-4. Put in test mode.
-5. If your system use a custom field for the organisations number, please fill in "Custom organisation number field".
+1. Proceed to Magento 2 Admin and navigate to `Stores > Configuration > Sales > Payment Methods > Wasa Kredit`.
+2. Fill in your assigned **Partner ID** and **Client Secret**.
+3. To display the monthly cost widget in product detail page, use the `Product Detail Page Widget` handle in module configuration.
+4. To calculate and display the monthly cost for each product in a list, use the `Product Listing Page Widget` handle.
+5. Activate the extension
 
-## <a name="product_widget">Add widget showing monthly cost on product page</a>
+To test the checkout use the test organisation number `680624-9022`.
 
-To display the monthly cost widget in product detail page, use the `Product Detail Page Widget` handle in module configuration (`Stores > Configuration > Sales > Payment Methods`).
+When the extension has been tested, change the **Test Mode**-flag to `No` to go live with the checkout.
 
-## <a name="list_view">Add monthly cost in product list</a>
+## <a name="passing_organization_number"></a>Enable and passing an Organization number to the checkout
 
-To calculate and display the monthly cost for each product in a list, use the `Product Listing Page Widget` handle.
+Magento 2 does not have a field in the checkout that contains an Organization number enabled by default.
+To pass an Organization number to the checkout our plugin uses the value from the VAT Number field.
 
-## <a name="folder_structure">Folder structure</a>
+To enable this field in the checkout;
+
+1. Open up Magento 2 Admin
+2. Proceed to `Stores > Configuration > Customers > Customer Configuration > Create New Account Options`.
+3. Set the value **Show VAT Number on Storefront** to `Yes`.
+
+
+
+## <a name="folder_structure"></a>Folder structure
 
 ```sh
 .
