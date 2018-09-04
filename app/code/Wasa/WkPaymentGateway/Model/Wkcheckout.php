@@ -379,7 +379,7 @@ class Wkcheckout
         $streetAddress = $address->getStreet();
 
         $streetElement = $streetAddress[0];
-        
+
         if (count($streetAddress) > 1) {
             if (!empty(trim($streetAddress[1]))) {
               $streetElement = $streetElement . ", " . $streetAddress[1];
@@ -459,15 +459,7 @@ class Wkcheckout
             $currency = $this->getStoreCurrency();
         }
 
-        $payload = array (
-            'financial_product' => 'leasing',
-            'price_ex_vat' => array(
-                'amount' => $price,
-                'currency' => $currency
-            )
-        );
-
-        $response = $this->shotcaller->call('create_product_widget', $payload);
+        $response = $this->shotcaller->call('get_monthly_cost_widget', $price);
 
         return $response;
     }
