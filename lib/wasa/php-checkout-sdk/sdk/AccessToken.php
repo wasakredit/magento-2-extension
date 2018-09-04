@@ -83,8 +83,7 @@ class AccessToken
           CURLOPT_RETURNTRANSFER  => true,
           CURLOPT_ENCODING        => "",
           CURLOPT_MAXREDIRS       => 10,
-          //TODO increased timeout for testing
-            CURLOPT_TIMEOUT         => 15,
+          CURLOPT_TIMEOUT         => 5,
           CURLOPT_HTTP_VERSION    => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST   => "POST",
           CURLOPT_POSTFIELDS      => $this->constructPOSTFields(),
