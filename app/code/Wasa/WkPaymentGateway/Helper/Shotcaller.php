@@ -16,7 +16,6 @@ class Shotcaller extends AbstractHelper
     private $checkoutSession;
     private $quote;
     private $_client_sdk;
-
     /**
      * Data constructor.
      * @param DirectoryList $directoryList
@@ -37,6 +36,7 @@ class Shotcaller extends AbstractHelper
         $clientId       = $this->scopeConfig->getValue('payment/wasa_gateway/merchant_gateway_key');
         $clientSecret   = $this->scopeConfig->getValue('payment/wasa_gateway/client_secret');
         $testMode       = $this->scopeConfig->getValue('payment/wasa_gateway/debug');
+
 
         /* requiring SDK files */
         $rootPath = $directoryList->getRoot();
