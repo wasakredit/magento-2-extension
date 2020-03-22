@@ -84,7 +84,8 @@ define(
                     onComplete: function(orderReferences){
                         self.placeOrder();
 
-                        var wasaOrderId = orderReferences[orderReferences.length - 1]['value'];
+                        //var wasaOrderId = orderReferences[orderReferences.length - 1]['value'];
+                        var wasaOrderId = orderReferences.filter(function(a){return a.key==="wasakredit-order-id"})[0].value;
                         httpGet(baseUrl + '/wkcheckout/checkout/callbackCompleted'
                             + translateObjectContents('order_id', self.orderId) + '&' + 'wasa_order_id=' + wasaOrderId,
                             function(state, status, http) {
