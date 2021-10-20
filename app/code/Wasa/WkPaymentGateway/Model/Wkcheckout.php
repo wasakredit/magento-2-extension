@@ -246,6 +246,26 @@ class Wkcheckout
     }
 
     /**
+     *  Makes API call to retrieve leasing payment options methods
+     *
+     * @return Response
+     */
+    public function getLeasingPaymentOptions()
+    {
+        // TODO: Add shipping cost
+        $shippingCost = 0;
+        $subTotal = round($this->quote->getSubtotal());
+        $formatedTotalAmount = (string)($subTotal + $shippingCost);
+
+        $currency = $this->getStoreCurrency();
+
+        /** @var Response $response */
+        $response = $this->shotcaller->call('get_leasing_payment_options',$formatedTotalAmount, $currency);
+        
+        return $response;
+    }
+
+    /**
      * Create mapping between Wasa order id
      * and Magento order id
      *

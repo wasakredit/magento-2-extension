@@ -18,19 +18,16 @@ class Api
     public static $DELETE = "DELETE";
 
     private $token_client;
-    private $_test_mode;
     private $version;
     private $plugin;
 
-    public function __construct($partnerId, $clientSecret, $testMode)
+    public function __construct($partnerId, $clientSecret, $auth_url)
     {
-        $this->token_client = new AccessToken($partnerId, $clientSecret, $testMode);
-        $this->_test_mode = $testMode;
+        $this->token_client = new AccessToken($partnerId, $clientSecret, $auth_url);
         $this->version = wasa_config('version');
         $this->plugin = wasa_config('plugin');
     }
-
-    public function execute($url, $method, $postData)
+    public function execute($url, $method, $postData, $timeout = 15)
     {
         if (!$this->token_client->get_token()) {
             return null;
@@ -39,10 +36,6 @@ class Api
         $headers = array();
         $headers[] = "Authorization: Bearer " . $this->token_client->get_token();
         $headers[] = "Content-Type: application/json";
-
-        if ($this->_test_mode) {
-            $headers[] = "x-test-mode: true";
-        }
 
         $headers[] = "x-sdk-version: " . $this->version;
         $headers[] = "x-plugin-version: " . $this->plugin;
@@ -53,7 +46,9 @@ class Api
 
         $curl = curl_init();
 
-        curl_setopt($curl, CURLOPT_TIMEOUT, 2);
+		curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 2);
+        curl_setopt($curl, CURLOPT_TIMEOUT, $timeout);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($curl, CURLINFO_HEADER_OUT, true);
@@ -76,10 +71,6 @@ class Api
             default:
                 throw new Exception('Method ' . $method . ' is not recognized.');
         }
-
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 80);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 80);
 
         $curl_response   = curl_exec($curl);
         $response_info   = curl_getinfo($curl);

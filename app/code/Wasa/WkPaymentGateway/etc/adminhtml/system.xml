@@ -15,20 +15,42 @@
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="merchant_gateway_key" translate="label" type="obscure" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Partner ID</label>
-                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
-                    <comment><![CDATA[Partner ID is issued by Wasa Kredit.]]></comment>
-                </field>
-                <field id="client_secret" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Client Secret</label>
-                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
-                    <comment><![CDATA[Client Secret is issued by Wasa Kredit.]]></comment>
-                </field>
-                <field id="debug" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="debug" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Test Mode</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment><![CDATA[API calls will be in test mode.]]></comment>
+                </field>
+                <field id="merchant_gateway_key" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Partner ID</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <comment><![CDATA[Partner ID is issued by Wasa Kredit.]]></comment>
+                    <depends>
+                        <field id="debug">0</field>
+                    </depends>
+                </field>
+                <field id="client_secret" translate="label" type="obscure" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Client Secret</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <comment><![CDATA[Client Secret is issued by Wasa Kredit.]]></comment>
+                    <depends>
+                        <field id="debug">0</field>
+                    </depends>
+                </field>
+                <field id="test_merchant_gateway_key" translate="label" type="obscure" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Test Partner ID</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <comment><![CDATA[Test Partner ID is issued by Wasa Kredit.]]></comment>
+                    <depends>
+                        <field id="debug">1</field>
+                    </depends>
+                </field>
+                <field id="test_client_secret" translate="label" type="obscure" sortOrder="52" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Test Client Secret</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                    <comment><![CDATA[Test Client Secret is issued by Wasa Kredit.]]></comment>
+                    <depends>
+                        <field id="debug">1</field>
+                    </depends>
                 </field>
                 <field id="is_detail_widget_visible" translate="label" type="select" sortOrder="55" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Show Product Detail Page Widget</label>

@@ -5,6 +5,7 @@
  */
 namespace Wasa\WkPaymentGateway\Controller\Checkout;
 
+ob_start();
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\ObjectManager;
