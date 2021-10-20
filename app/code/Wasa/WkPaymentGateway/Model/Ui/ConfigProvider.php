@@ -56,12 +56,12 @@ final class ConfigProvider implements ConfigProviderInterface
      */
     protected function getDefaultOption()
     {
+
         $leasingOptions = $this->getLeasingOptions()['options'];
         $defaultOptionLength = $leasingOptions['default_contract_length'];
 
         if(is_array($leasingOptions )){
             $defaultOptionIndex = array_search($defaultOptionLength, array_column($leasingOptions['contract_lengths'], 'contract_length'));
-
             return $leasingOptions['contract_lengths'][$defaultOptionIndex];
         }
 
@@ -77,9 +77,12 @@ final class ConfigProvider implements ConfigProviderInterface
     protected function getLeasingOptions()
     {
         $paymentMethods = $this->wkcheckout->getPaymentMethods();
+        $leasingOprions = $this->wkcheckout->getLeasingPaymentOptions();
 
-        if(isset($paymentMethods['payment_methods']))
+        if(isset($paymentMethods['payment_methods'])) {
+            $paymentMethods['payment_methods'][0]['options'] = $leasingOprions;
             return $paymentMethods['payment_methods'][0];
+        }
 
         return null;
     }

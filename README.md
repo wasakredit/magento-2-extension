@@ -13,6 +13,11 @@ Official Wasa Kredit payment extension for Magento 2. Allows store builders to o
 
 ## <a name="change_log"></a>Change log
 
+### What's new in v2.2
+
+* Now supports Magento 2.2, 2.3, and 2.4.
+
+
 ### What's new in v2.1
 
 * Replace the obsolete *Leasing Product Widget* with new *Montly Cost Widget*

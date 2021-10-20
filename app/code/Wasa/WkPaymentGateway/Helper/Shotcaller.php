@@ -9,6 +9,7 @@ use Magento\Framework\App\Helper\AbstractHelper;
 
 use Sdk\Client;
 use Sdk\Response;
+use Sdk\ClientFactory;
 
 class Shotcaller extends AbstractHelper
 {
@@ -32,17 +33,22 @@ class Shotcaller extends AbstractHelper
         $this->scopeConfig = $scopeConfig;
         $this->checkoutSession = $checkoutSession;
         $this->quote = $this->checkoutSession->getQuote();
-
-        $clientId       = $this->scopeConfig->getValue('payment/wasa_gateway/merchant_gateway_key');
-        $clientSecret   = $this->scopeConfig->getValue('payment/wasa_gateway/client_secret');
+        
         $testMode       = $this->scopeConfig->getValue('payment/wasa_gateway/debug');
 
+        if($testMode != true) {
+            $clientId       = $this->scopeConfig->getValue('payment/wasa_gateway/merchant_gateway_key');
+            $clientSecret   = $this->scopeConfig->getValue('payment/wasa_gateway/client_secret');
+        } else {
+            $clientId       = $this->scopeConfig->getValue('payment/wasa_gateway/test_merchant_gateway_key');
+            $clientSecret   = $this->scopeConfig->getValue('payment/wasa_gateway/test_client_secret');
+        }
 
         /* requiring SDK files */
         $rootPath = $directoryList->getRoot();
         require_once($rootPath."/lib/wasa/php-checkout-sdk/Wasa.php");
 
-        $this->_client_sdk = new Client($clientId, $clientSecret, $testMode);
+        $this->_client_sdk = ClientFactory::CreateClient($clientId, $clientSecret, $testMode);
     }
 
 
@@ -61,7 +67,6 @@ class Shotcaller extends AbstractHelper
             // Attempt API call
             /** @var Response $result */
             $result = call_user_func(array($this->_client_sdk, $method), ...$params);
-
             if(!$result->statusCode) return null;
             if(!$this->validateStatusCode($result->statusCode)) return null;
             if(!$result->data) return null;
