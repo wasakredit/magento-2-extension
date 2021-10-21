@@ -1,6 +1,6 @@
-# Wasa Kredit Prestashop
+# Wasa Kredit Magento 2
 # 
-# Fetches dependencies with composer and creates an archive that can be uploaded to prestashop.
+# Fetches dependencies with composer and creates an archive that can be used with magento 2.x.
 
 trigger:
   - master
@@ -46,11 +46,11 @@ steps:
     inputs:
       rootFolderOrFile: '$(Build.SourcesDirectory)/build/wasakredit'
       archiveType: 'zip'
-      archiveFile: '$(Build.ArtifactStagingDirectory)/wasakredit.zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/magento2-extension.zip'
       replaceExistingArchive: true
 
   - task: PublishBuildArtifacts@1
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'wasakredit'
+      ArtifactName: 'magento2-extension'
       publishLocation: 'Container'
