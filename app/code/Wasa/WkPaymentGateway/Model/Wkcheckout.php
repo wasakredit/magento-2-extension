@@ -3,6 +3,7 @@
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
+
 namespace Wasa\WkPaymentGateway\Model;
 
 use Magento\Checkout\Model\Session as CheckoutSession;
@@ -58,13 +59,14 @@ class Wkcheckout
      * @param CountryFactory $countryFactory
      */
     public function __construct(
-        Shotcaller $shotcaller,
-        CheckoutSession $checkoutSession,
-        CustomerSession $customerSession,
-        ScopeConfigInterface $scopeConfig,
+        Shotcaller            $shotcaller,
+        CheckoutSession       $checkoutSession,
+        CustomerSession       $customerSession,
+        ScopeConfigInterface  $scopeConfig,
         StoreManagerInterface $storeManager,
-        CountryFactory $countryFactory
-    ) {
+        CountryFactory        $countryFactory
+    )
+    {
         $this->shotcaller = $shotcaller;
         $this->customerSession = $customerSession;
         $this->checkoutSession = $checkoutSession;
@@ -112,7 +114,8 @@ class Wkcheckout
      *
      * @return int $orgNumber
      */
-    public function getOrgNumber() {
+    public function getOrgNumber()
+    {
         $orgNumber = $this->quote->getShippingAddress()->getVatId();
         return $orgNumber;
     }
@@ -122,7 +125,8 @@ class Wkcheckout
      * the admin panel
      * @return string $requestDomain
      */
-    public function getRequestDomain() {
+    public function getRequestDomain()
+    {
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $storeManager = $objectManager->get('\Magento\Store\Model\StoreManagerInterface');
         return $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_WEB);
@@ -140,7 +144,7 @@ class Wkcheckout
         $currency = $this->getStoreCurrency();
 
         $shippingCost = array(
-            'amount'  => $formattedCost,
+            'amount' => $formattedCost,
             'currency' => $currency
         );
 
@@ -167,7 +171,7 @@ class Wkcheckout
         // Check address type
         $addressIsSameAsBilling = $this->getAddressType();
 
-        if($addressIsSameAsBilling) {
+        if ($addressIsSameAsBilling) {
             $billingAddress = $this->getAddress($addressIsSameAsBilling);
             $shippingAddress = $this->getAddress($addressIsSameAsBilling);
         } else {
@@ -180,7 +184,7 @@ class Wkcheckout
 
         $orderReferences = array();
         $orderReferences[] = array('key' => 'magento_quote_id', 'value' => $orderId);
-        $pingUrl = $this->storeManager->getStore()->getBaseUrl().'wkcheckout/checkout/ping';
+        $pingUrl = $this->storeManager->getStore()->getBaseUrl() . 'wkcheckout/checkout/ping';
 
         $payload = [
             'payment_types' => $paymentType,
@@ -206,7 +210,7 @@ class Wkcheckout
         ];
 
         /** @var string $response */
-        $response = $this->shotcaller->call('create_checkout',$payload);
+        $response = $this->shotcaller->call('create_checkout', $payload);
 
         return $response;
     }
@@ -240,7 +244,7 @@ class Wkcheckout
         $currency = $this->getStoreCurrency();
 
         /** @var Response $response */
-        $response = $this->shotcaller->call('get_payment_methods',$formatedTotalAmount, $currency);
+        $response = $this->shotcaller->call('get_payment_methods', $formatedTotalAmount, $currency);
 
         return $response;
     }
@@ -260,8 +264,8 @@ class Wkcheckout
         $currency = $this->getStoreCurrency();
 
         /** @var Response $response */
-        $response = $this->shotcaller->call('get_leasing_payment_options',$formatedTotalAmount, $currency);
-        
+        $response = $this->shotcaller->call('get_leasing_payment_options', $formatedTotalAmount, $currency);
+
         return $response;
     }
 
@@ -292,7 +296,7 @@ class Wkcheckout
     {
         $customerAddress = $this->getBillingAddress();
         $personalDetails = array(
-            'purchaser_name'  => $customerAddress->getFirstname().' '.$customerAddress->getLastname(),
+            'purchaser_name' => $customerAddress->getFirstname() . ' ' . $customerAddress->getLastname(),
             'purchaser_phone' => $customerAddress->getTelephone(),
             'purchaser_email' => $customerAddress->getEmail()
         );
@@ -305,7 +309,8 @@ class Wkcheckout
      *
      * @return object $address
      */
-    public function getBillingAddress() {
+    public function getBillingAddress()
+    {
         $address = $this->quote->getBillingAddress();
         return $address;
     }
@@ -321,13 +326,13 @@ class Wkcheckout
     private function formatPrice($price)
     {
         (!is_string($price)) ? $literalRepPrice = $price : $literalRepPrice = (string)$price;
-        (strpos($literalRepPrice, ",") === false) ? $adjustedPrice = $literalRepPrice : $adjustedPrice = str_replace(",",".", $literalRepPrice);
+        (strpos($literalRepPrice, ",") === false) ? $adjustedPrice = $literalRepPrice : $adjustedPrice = str_replace(",", ".", $literalRepPrice);
 
 
         $dotIndex = strpos($adjustedPrice, ".") + 1;
         $length = strlen($adjustedPrice);
         $decimalSpan = $length - $dotIndex;
-        $formattedPrice = (($decimalSpan) > 2) ? substr($adjustedPrice, 0, -($decimalSpan -2)) : $adjustedPrice;
+        $formattedPrice = (($decimalSpan) > 2) ? substr($adjustedPrice, 0, -($decimalSpan - 2)) : $adjustedPrice;
 
         return $formattedPrice;
     }
@@ -353,15 +358,15 @@ class Wkcheckout
         $currency = $this->getStoreCurrency();
 
         /** @var Item $value */
-        foreach($this->quote->getItems() as $key=> $value) {
+        foreach ($this->quote->getItems() as $key => $value) {
 
             $baseTaxPercent = $value->getTaxPercent();
             $baseTaxAmount = $value->getBaseTaxAmount();
             $basePrice = $value->getBasePrice();
 
-            $taxPercent = (int) $baseTaxPercent;
-            $taxAmount  = (string)$baseTaxAmount;
-            $price      = (string) $basePrice;
+            $taxPercent = (int)$baseTaxPercent;
+            $taxAmount = (string)$baseTaxAmount;
+            $price = (string)$basePrice;
 
             $cartItem = [
                 'product_id' => $value->getItemId(),
@@ -370,7 +375,7 @@ class Wkcheckout
                     'amount' => $price,
                     'currency' => $currency
                 ],
-                'quantity' => $value->getQty() ,
+                'quantity' => $value->getQty(),
                 'vat_percentage' => $taxPercent,
                 'vat_amount' => [
                     'amount' => $taxAmount,
@@ -396,31 +401,26 @@ class Wkcheckout
         /** @var Address $address */
         $address = $isSameAsBilling ? $this->getBillingAddress() : $this->getShippingAddress();
 
-        $streetAddress = $address->getStreet();
+        $streetAddresses = $address->getStreet();
 
-        $streetElement = $streetAddress[0];
+        $streetElement = "";
 
-        if (count($streetAddress) > 1) {
-            if (!empty(trim($streetAddress[1]))) {
-              $streetElement = $streetElement . ", " . $streetAddress[1];
-            }
-
-            if (!empty(trim($streetAddress[2]))) {
-              $streetElement = $streetElement . ", " . $streetAddress[2];
+        foreach ($streetAddresses as $streetAddress) {
+            if (!empty(trim($streetAddress))) {
+                $streetElement = $streetElement . ", " . $streetAddress;
             }
         }
-        $countryId = $address->getCountryId();
-        $country = $countryId?$this->getCountryNameById($address->getCountryId()):null;
 
-        $addressArray = array(
-            'company_name'  => $address->getCompany(),
+        $countryId = $address->getCountryId();
+        $country = $countryId ? $this->getCountryNameById($address->getCountryId()) : null;
+
+        return array(
+            'company_name' => $address->getCompany(),
             'street_address' => $streetElement,
             'postal_code' => $address->getPostcode(),
             'city' => $address->getCity(),
             'country' => $country
         );
-
-        return $addressArray;
     }
 
     /**
@@ -428,7 +428,8 @@ class Wkcheckout
      *
      * @return object $address
      */
-    public function getShippingAddress() {
+    public function getShippingAddress()
+    {
         $address = $this->quote->getShippingAddress();
         return $address;
     }
@@ -439,7 +440,8 @@ class Wkcheckout
      * @param $countryId
      * @return string $countryName
      */
-    public function getCountryNameById($countryId) {
+    public function getCountryNameById($countryId)
+    {
         $countryModel = $this->countryFactory->create()->loadByCode($countryId);
         $countryName = $countryModel->getName();
         return $countryName;
@@ -454,13 +456,13 @@ class Wkcheckout
      */
     public function validateLeasingAmount($finalCost)
     {
-        if(!$finalCost){
+        if (!$finalCost) {
             return false;
         }
 
         $result = $this->shotcaller->call('validate_financed_amount', $finalCost);
 
-        $isWithinRange = isset($result['validation_result'])?$result['validation_result']:false;
+        $isWithinRange = isset($result['validation_result']) ? $result['validation_result'] : false;
 
         return $isWithinRange;
     }
@@ -471,11 +473,11 @@ class Wkcheckout
      * @param string|null $currency
      * @return string|array
      */
-    public function createProductWidget($productPrice, $currency=null)
+    public function createProductWidget($productPrice, $currency = null)
     {
-        $price = (string) round($productPrice,2);
+        $price = (string)round($productPrice, 2);
 
-        if(!$currency){
+        if (!$currency) {
             $currency = $this->getStoreCurrency();
         }
 

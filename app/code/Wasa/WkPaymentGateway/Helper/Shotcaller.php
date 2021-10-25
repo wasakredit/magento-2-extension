@@ -46,7 +46,7 @@ class Shotcaller extends AbstractHelper
 
         /* requiring SDK files */
         $rootPath = $directoryList->getRoot();
-        require_once($rootPath."/lib/wasa/php-checkout-sdk/Wasa.php");
+        require_once($rootPath."/vendor/wasa/php-checkout-sdk/Wasa.php");
 
         $this->_client_sdk = ClientFactory::CreateClient($clientId, $clientSecret, $testMode);
     }
